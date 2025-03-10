@@ -1,0 +1,74 @@
+/* 
+@font-face {
+    font-family: coolS;
+    src: url(cool-s-);
+} */
+
+@font-face {
+    font-family: 'coolS';
+    src: url('./assets/cool-s-full.ttf') format('truetype'); 
+    font-weight: bold;
+    font-style: normal;
+    font-size: xx-large; /*need to make the font bigger*/
+    /* https://fontstruct.com/fontstructions/download/1595139 this is the citation for the font */ 
+}
+
+body {
+    text-align: center;
+    background-color: lemonchiffon;
+    font-family: 'coolS', sans-serif;
+  }
+  
+  /* #level-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3rem;
+    margin:  5%;
+    color: #FEF2BF;
+  } */
+  
+.container {
+    display: flex;
+    padding: 10px; 
+    flex-wrap: wrap;
+  }
+  .box {
+    width: calc(50% - 10px);
+    height: 100px;  
+    border: 5cap solid #000;
+    margin: 10px;
+  }
+  
+  /* .btn {
+    margin: 25px;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    border: 10px solid black;
+    border-radius: 20%;
+  }
+  
+  .game-over {
+    background-color: red;
+    opacity: 0.8;
+  } */
+  
+  #red {
+    background-color: red;
+  }
+  
+  #green {
+    background-color: green;
+  }
+  
+  #blue {
+    background-color: blue;
+  }
+  
+  #yellow {
+    background-color: yellow;
+  }
+/*   
+  .pressed {
+    box-shadow: 0 0 20px white;
+    background-color: grey;   */
+    
