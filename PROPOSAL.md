@@ -22,15 +22,16 @@ My app is called **SIMON**. It's a single player game for people who want to pla
 - As a player, I want my game to generate different patterns every time the game starts/restarts.
 - As a player, I would like to be informed when the game is over due to taking too long/selecting the wrong color.
 - As a player, I would like to know which level I am on.
-- As a player, I would like the option to play the game with sound or without soud.
 - As a player I would like to be able to restart the game after a loss or whenever.
 - As a player, I want the UI to be simple and clear so that I can enjoy the experience of playing the game.
 
 #### Stretch Goals
 
 - As a player, I would like a moving animation for when I lose the game, so that I feel better about losing.
+- As a player, I would like the option to play the game with sound or without soud.
 - As a player, I would like the option to hear audible sounds when my selection is wrong or when I run out of time. 
 -As a player, I would like a dark option, or a dark neon option with different sound options.
+- Save high scores using localStorage
 
 ## Pseudocode
 ```js
@@ -68,7 +69,7 @@ My app is called **SIMON**. It's a single player game for people who want to pla
 | Wednesday  |   | Work on JS file                    |          |                 |
 | Thursday   |   | Complete JS file                   |          |                 |
 | Friday     |   | Work on CSS                        |          |                 |
-| Saturday   |   | Finaliza MVP                       |          |                 |
+| Saturday   |   | Finalize MVP                       |          |                 |
 | Sunday     |   | Work on stretch goals              |          |                 |
 | Monday     |   | Presentation Day!                  |          |                 |
 |            |   |                                    |          |                 |
