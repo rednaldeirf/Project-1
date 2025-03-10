@@ -3,17 +3,17 @@ Simon is the game I chose to do for the first project.
 
 ## Project Description 
 
-My app is called Simon. It's a single player game app for players who want to play Simon online. Players can test their memory in a fun and dynamic online game and play Simon, with the player's level being kept automatically and game results displayed once the player loses. Users will have the option to play again.  
+My app is called **SIMON**. It's a single player game for people who want to play Simon online. Players can test their memory in a fun and dynamic way with **SIMON**. One additional move is added during each level and the player must repeat the pattern exactly. The colors correspond with a tone and the player will have the option to mute the sound. The player's level will be being kept automatically. A display prompting the player to ***Try Again*** will pop up once the player loses. 
 
 ## Wire Frames
 
 **Initial Landing View**
 
-![image](/users/jasonfriedlander/downloads/simon/3.png)
+![image](./assets/landing.png)
 
 **Results View**
 
-![image](/users/jasonfriedlander/downloads/simon(1)/resultsview.jpg)
+![image](./assets/resultsView.jpg)
 
 ## User Stories
 
@@ -23,14 +23,14 @@ My app is called Simon. It's a single player game app for players who want to pl
 - As a player, I would like to be informed when the game is over due to taking too long/selecting the wrong color.
 - As a player, I would like to know which level I am on.
 - As a player, I would like the option to play the game with sound or without soud.
-- As a player I would like to be able to restart the game after a a loss or whenever.
-- As a player, I want the UI to be simple and clear so that I can enjoy the experience of playing the game.\*\*
+- As a player I would like to be able to restart the game after a loss or whenever.
+- As a player, I want the UI to be simple and clear so that I can enjoy the experience of playing the game.
 
 #### Stretch Goals
 
 - As a player, I would like a moving animation for when I lose the game, so that I feel better about losing.
-- As a player, I would like the option to hear an audible sounds to confirm that my pattern selection is correct, or when my selection is wrong, or when I run out of time. 
--As a player, I would like a dark option, or a dark neon option.
+- As a player, I would like the option to hear audible sounds when my selection is wrong or when I run out of time. 
+-As a player, I would like a dark option, or a dark neon option with different sound options.
 
 ## Pseudocode
 ```js
@@ -59,12 +59,8 @@ My app is called Simon. It's a single player game app for players who want to pl
 ```
 
 #### Timeline - Daily Accountability
-Example of a Timeline to keep organized and on task for hitting goals every single day you’re on the sprint for your project.
 
-Create your own table using this markdown table generator website:
-https://www.tablesgenerator.com/markdown_tables
 
-Do not neglect to plan, you will thank yourself later for being proactive!
 | Day        |   | Task                               | Blockers | Notes/ Thoughts |
 |------------|---|------------------------------------|----------|-----------------|
 | Monday     |   | Create and present proposal        |          |                 |
