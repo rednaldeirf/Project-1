@@ -54,7 +54,7 @@ function resetGame() {
     score = 0;
     statusDisplay.innerText = "press start to play";
     resetButtonEl.style.display = "none";
-    statusDisplay.classList.remove("bouncing"); 
+    // statusDisplay.classList.remove("bouncing"); 
 }
 
 function getRandomColor() {
@@ -143,7 +143,7 @@ function handleUserClick(color) {
     }
 
     if (userPattern.length === gamePattern.length) {
-    setTimeout(nextRound, stepDelay); //do i have to change it to 1000?
+    setTimeout(nextRound, stepDelay); 
 }
 }
 
@@ -156,6 +156,7 @@ function nextRound() {
     computerIsPlaying = true;
     setTimeout(playSequence, 1000);
 }
+
 
 function playSound(color) {
     console.log(`Playing sound for ${color}`);

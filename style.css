@@ -9,7 +9,7 @@
     src: url('./assets/cool-s-full.ttf') format('truetype'); 
     font-weight: bold;
     font-style: normal;
-    font-size: xx-large; /*need to make the font bigger*/
+    font-size: 150px; /*need to make the font bigger*/
     /* https://fontstruct.com/fontstructions/download/1595139 this is the citation for the font */ 
 }
 
@@ -19,6 +19,9 @@ body {
     font-family: 'coolS', sans-serif;
   }
   
+  .big-letter {
+    font-size: 2em;
+  }
   /* #level-title {
     font-family: 'Press Start 2P', cursive;
     font-size: 3rem;
@@ -44,8 +47,12 @@ body {
   
   #begin {
     font-family: 'coolS';
+    text-align: center;
     src: url(./assets/cool-s-full.ttf) format('truetype');
+    font-size: x-large;
+    margin-top: 20px;
   }
+
   /* .btn {
     margin: 25px;
     display: inline-block;
@@ -140,15 +147,17 @@ button.active {
 #status {
   font-size: 30px;
   font-weight: bold;
-  color: white;
+  color: black;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  animation: bounce 1s ease infinite;
+  /* animation: bounce 1s ease infinite; */
   display: inline-block;
   margin-top: 20px;
 }
 
 #sound-toggle {
   font-size: 20px;
+  font-family: 'coolS', sans-serif;
+  text-align: center;
   padding: 10px 20px;
   margin-top: 20px;
   background-color: #4CAF50;
@@ -156,8 +165,9 @@ button.active {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  src: url(./assets/cool-s-full.ttf) format('truetype');
 }
 
 #sound-toggle:hover {
-  background-color: #45a049;
+  background-color: lightgreen;
 }
