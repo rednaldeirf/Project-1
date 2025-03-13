@@ -26,18 +26,26 @@ body {
     color: #FEF2BF;
   } */
   
-.container {
+/* .container {
     display: flex;
     padding: 10px; 
     flex-wrap: wrap;
-  }
+  } */
+   .row {
+    display: flex;
+    justify-content: center;
+   }
   .box {
-    width: calc(50% - 10px);
+    width: 100px;
     height: 100px;  
-    border: 5cap solid #000;
+    border: 5px solid #000;
     margin: 10px;
   }
   
+  #begin {
+    font-family: 'coolS';
+    src: url(./assets/cool-s-full.ttf) format('truetype');
+  }
   /* .btn {
     margin: 25px;
     display: inline-block;
@@ -72,3 +80,84 @@ body {
     box-shadow: 0 0 20px white;
     background-color: grey;   */
     
+  .box {
+    transition: opacity 1s ease;
+  }  
+
+  .box fade-out {
+    opacity: 0;
+    display: none;
+  }
+
+  /* .color-button.active {
+    transform: scale(1.1);
+    opacity: 0.5;
+  } */
+  .color-button {
+    width: 150px;
+    height: 150px;
+    border: 5px solid black; /* Keep the black border */
+    border-radius: 20px;
+    opacity: 0.2; /* Dim when inactive */
+    transition: opacity 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for both */
+    cursor: pointer;
+}
+
+.color-button.active {
+  opacity: 1; /* Fully visible */
+  box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, 0.8); /* Glow effect */
+}
+
+  button {
+    transition: background-color 0.3s ease-in-out;
+}
+
+button.active {
+    filter: brightness(1.8); /* Makes the button glow */
+    transition: filter 0.3s ease-in-out;
+}
+
+/* Game Over message animation */
+@keyframes bounce {
+  0% {
+      transform: translateY(0);
+  }
+  25% {
+      transform: translateY(-10px);
+  }
+  50% {
+      transform: translateY(0);
+  }
+  75% {
+      transform: translateY(-5px);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+
+/* Apply the bounce animation to the status display */
+#status {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  animation: bounce 1s ease infinite;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+#sound-toggle {
+  font-size: 20px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#sound-toggle:hover {
+  background-color: #45a049;
+}
