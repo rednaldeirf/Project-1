@@ -7,6 +7,7 @@ let level = 0;
 let gameEnd = false;
 let soundOn = true;
 let timerOn = true;
+let clickTimer;
 //5 second timer after every click
 //option to turn timer off (boolean)
 //mute audio (boolean)
@@ -19,7 +20,8 @@ const startButton = document.getElementById('begin');
 const stepDelay = 1000
 const statusDisplay = document.getElementById("status"); 
 const soundToggleButton = document.getElementById('sound-toggle');
-
+const levelDisplay = document.getElementById("level-display");
+const timeLimit = 5000;
 // Event listeners
 startButton.addEventListener('click', startGame)
 soundToggleButton.addEventListener('click', toggleSound);
@@ -32,6 +34,8 @@ buttonColors.forEach(color => {
     const button = document.getElementById(color);
     button.addEventListener("click", () => handleUserClick(color))
 })
+
+document.getElementById("toggle-timer").addEventListener("click", toggleTimer);
 // divElement.addEventListener("click", handleReaction);
 // commentBtn.addEventListener("click", commentHandler);    
 
@@ -41,6 +45,8 @@ function startGame() {
     computerIsPlaying = true;
     statusDisplay.innerText = "watch the sequence!";
     //after chercking both patterns and if correct score incrise 
+    // startButton.style.position = "fixed";
+    // startButton.style.zIndex = "1000";
     score++;
 
     const randomColor = getRandomColor();
@@ -53,7 +59,7 @@ function resetGame() {
     userPattern = [];
     score = 0;
     statusDisplay.innerText = "press start to play";
-    resetButtonEl.style.display = "none";
+    // resetButtonEl.style.display = "none";
     // statusDisplay.classList.remove("bouncing"); 
 }
 
@@ -67,7 +73,7 @@ function playSequence() {
     for (let color of gamePattern) {
         setTimeout(() => {
             // playSound(color);
-            // highlightButton(color);
+            highlightButton(color);
             document.querySelectorAll(".color-button").forEach(btn => {
                 btn.style.opacity = "0.5";
             });
@@ -79,7 +85,37 @@ function playSequence() {
     setTimeout(() => {
         computerIsPlaying = false;
         statusDisplay.innerText = "your turn";
+        startClickTimer();
     }, delay);
+}
+
+function startClickTimer() {
+    clearTimeout(clickTimer); // Clear any existing timer
+
+    if (!timerOn) return; // Exit if the timer is OFF
+
+    let timeLeft = timeLimit / 1000; // Convert to seconds
+    const timerDisplay = document.getElementById("timer-display");
+    // timerDisplay.innerText = `Time Left: ${timeLeft}s`;
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        // timerDisplay.innerText = `Time Left: ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+        }
+    }, 1000);
+
+    clickTimer = setTimeout(() => {
+        gameOver("Time's up!"); // End game if player doesn't click in time
+    }, timeLimit);
+}
+
+function toggleTimer(timeLimit) {
+    timerOn = !timerOn;
+    document.getElementById("toggle-timer").innerText = timerOn ? `Timer: ON`  : "Timer: OFF";
+    
 }
 
 function playSound(color) {
@@ -132,6 +168,8 @@ function highlightButton(color) {
 function handleUserClick(color) {
     if (computerIsPlaying) return;
 
+    clearTimeout(clickTimer);
+
     userPattern.push(color);
     playSound(color);
     highlightButton(color);
@@ -152,10 +190,19 @@ function nextRound() {
     userPattern = [];
     const randomColor = getRandomColor();
     gamePattern.push(randomColor);
-    statusDisplay.innerText = `Level ${gamePattern.length}`;
+    // statusDisplay.innerText = `Level ${gamePattern.length}`;
     computerIsPlaying = true;
     setTimeout(playSequence, 1000);
+
+    // let currentLevel = gamePattern.length;
+    // statusDisplay.innerText = `Level ${currentLevel}`;
+    // levelDisplay.innerText = `Level ${currentLevel}`;
+
+    // computerIsPlaying = true;
+    // setTimeout(playSequence, 1000);
 }
+
+
 
 
 function playSound(color) {
@@ -230,7 +277,7 @@ function fadeOut(randomColor) {
     }
     decreaseOpacity();
 }
-fadeOut(randomColor);
+// fadeOut(randomColor);
 function fadeOut(randomColor) {
   let element = document.querySelector("#" + randomColor);
   element.classList.add("fade-out");
