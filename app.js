@@ -21,7 +21,9 @@ const stepDelay = 1000
 const statusDisplay = document.getElementById("status"); 
 const soundToggleButton = document.getElementById('sound-toggle');
 const levelDisplay = document.getElementById("level-display");
-const timeLimit = 5000;
+const timeLimit = 3000;
+
+const buttonSound = new Audio("simon-music.mp3");
 // Event listeners
 startButton.addEventListener('click', startGame)
 soundToggleButton.addEventListener('click', toggleSound);
@@ -39,15 +41,21 @@ document.getElementById("toggle-timer").addEventListener("click", toggleTimer);
 // divElement.addEventListener("click", handleReaction);
 // commentBtn.addEventListener("click", commentHandler);    
 
+// Add event listener to a button
+document.getElementById("begin").addEventListener("click", playSound);
+
 //Functions
 function startGame() {
     resetGame();
+    level = 1;
+    updateLevelDisplay();
+
     computerIsPlaying = true;
     statusDisplay.innerText = "watch the sequence!";
     //after chercking both patterns and if correct score incrise 
     // startButton.style.position = "fixed";
     // startButton.style.zIndex = "1000";
-    score++;
+    // score++;
 
     const randomColor = getRandomColor();
     gamePattern.push(randomColor);
@@ -119,8 +127,12 @@ function toggleTimer(timeLimit) {
 }
 
 function playSound(color) {
-    if (!soundOn) return; 
-    console.log(`Playing sound for ${color}`);
+    // if (!soundOn) return; 
+    // console.log(`Playing sound for ${color}`);
+    const sound = new Audio('simon-music.mp3');
+    sound.currentTime = 0; // Reset sound playback
+    sound.play();
+    buttonSound.play();
 }
 
 function highlightButton(color) {
@@ -188,6 +200,9 @@ function handleUserClick(color) {
 
 function nextRound() {
     userPattern = [];
+    level ++;
+    updateLevelDisplay();
+
     const randomColor = getRandomColor();
     gamePattern.push(randomColor);
     // statusDisplay.innerText = `Level ${gamePattern.length}`;
@@ -203,7 +218,9 @@ function nextRound() {
 }
 
 
-
+function updateLevelDisplay() {
+    document.getElementById("level-counter").innerText = level;
+}
 
 function playSound(color) {
     console.log(`Playing sound for ${color}`);
@@ -298,4 +315,10 @@ function fadeOut(randomColor) {
 // document.querySelectorAll('box').forEach((btn) => {
 //     btn.addEventListener('click', play);
 // })
+
+
+// Function to play the sound
+function playSound() {
+    buttonSound.play();
+}
 
