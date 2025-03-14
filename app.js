@@ -1,4 +1,5 @@
 // Variables
+window.onload = loadHighScore;
 
 let gamePattern = [];
 let userPattern = [];
@@ -22,8 +23,14 @@ const statusDisplay = document.getElementById("status");
 const soundToggleButton = document.getElementById('sound-toggle');
 const levelDisplay = document.getElementById("level-display");
 const timeLimit = 3000;
+const soundFiles = {
+    red: "./sounds/red.wav",
+    blue: "./sounds/blue.wav",
+    green: "./sounds/green.wav",
+    yellow: "./sounds/yellow.wav"
+};
 
-const buttonSound = new Audio("simon-music.mp3");
+// const buttonSound = new Audio("/simon-music.mp3");
 // Event listeners
 startButton.addEventListener('click', startGame)
 soundToggleButton.addEventListener('click', toggleSound);
@@ -80,7 +87,7 @@ function playSequence() {
     let delay = 0;
     for (let color of gamePattern) {
         setTimeout(() => {
-            // playSound(color);
+            playSound(color);
             highlightButton(color);
             document.querySelectorAll(".color-button").forEach(btn => {
                 btn.style.opacity = "0.5";
@@ -127,13 +134,22 @@ function toggleTimer(timeLimit) {
 }
 
 function playSound(color) {
-    // if (!soundOn) return; 
-    // console.log(`Playing sound for ${color}`);
-    const sound = new Audio('simon-music.mp3');
-    sound.currentTime = 0; // Reset sound playback
-    sound.play();
-    buttonSound.play();
+    let soundPath = `./sounds/${color}.wav`; // Ensure correct file path
+    console.log("Loading sound from:", soundPath); // Debugging
+
+    let audio = new Audio(soundPath);
+    audio.play()
+        .then(() => console.log(`Playing ${color} sound`))
+        .catch(error => console.error("Audio playback error:", error));
 }
+   
+    // if (!soundOn) return; 
+    // const audio = new Audio(soundFiles[color]);
+    // sound.currentTime = 0; // Reset sound playback
+    // audio.play();
+    // sound.play();
+    // buttonSound.play();
+// }
 
 function highlightButton(color) {
     const button = document.getElementById(color);
@@ -144,36 +160,36 @@ function highlightButton(color) {
 }
 
 
-// function highlightButton(color) {
-//     const button = document.getElementById(color);
+function highlightButton(color) {
+    const button = document.getElementById(color);
     
-//     // Fade in effect (brighten the button)
-//     button.style.transition = "opacity 0.3s ease-in-out";
-//     button.style.opacity = "1"; 
+    // Fade in effect (brighten the button)
+    button.style.transition = "opacity 0.3s ease-in-out";
+    button.style.opacity = "1"; 
     
-//     setTimeout(() => {
-//         // Fade out effect (dim the button back)
-//         button.style.opacity = "0.5"; 
-//     }, 500);
-// }
+    setTimeout(() => {
+        // Fade out effect (dim the button back)
+        button.style.opacity = "0.5"; 
+    }, 500);
+}
 
-// function handleUserClick(color) {
-//     if (computerIsPlaying) return;
+function handleUserClick(color) {
+    if (computerIsPlaying) return;
 
-//     userPattern.push(color);
-//     playSound(color);
-//     highlightButton(color);
+    userPattern.push(color);
+    playSound(color);
+    highlightButton(color);
 
-//     const currentIdx = userPattern.length - 1;
-//     if (userPattern[currentIdx] !== gamePattern[currentIdx]) {
-//         gameOver();
-//         return;
-//     }
+    const currentIdx = userPattern.length - 1;
+    if (userPattern[currentIdx] !== gamePattern[currentIdx]) {
+        gameOver();
+        return;
+    }
 
-//     if (userPattern.length === gamePattern.length) {
-//     setTimeout(nextRound, stepDelay); //do i have to change it to 1000?
-// }
-// }
+    if (userPattern.length === gamePattern.length) {
+    setTimeout(nextRound, stepDelay); //do i have to change it to 1000?
+    }
+  }
 //  checkUserSequence(); // Check if the sequence is correct
 // }
 
@@ -222,9 +238,9 @@ function updateLevelDisplay() {
     document.getElementById("level-counter").innerText = level;
 }
 
-function playSound(color) {
-    console.log(`Playing sound for ${color}`);
-}
+// function playSound(color) {
+//     console.log(`Playing sound for ${color}`);
+// }
 
 function highlightButton(color) {
     const button = document.getElementById(color);
@@ -318,7 +334,27 @@ function fadeOut(randomColor) {
 
 
 // Function to play the sound
-function playSound() {
-    buttonSound.play();
+// function playSound() {
+//     buttonSound.play();
+// }
+
+function saveHighScore(score) {
+    let highScore = localStorage.getItem("highScore"); // Get stored high score
+
+    if (!highScore || score > highScore) { // If no high score exists OR new score is higher
+        localStorage.setItem("highScore", score); // Save new high score
+        console.log("New High Score:", score);
+    }
 }
+
+function loadHighScore() {
+    let highScore = localStorage.getItem("highScore") || 0; // Default to 0 if no score
+    document.getElementById("high-score").textContent = highScore;
+}
+
+function endGame(finalScore) {
+    saveHighScore(finalScore); // Save if it's the highest score
+    alert(`Game Over! Your score: ${finalScore}`);
+}
+
 

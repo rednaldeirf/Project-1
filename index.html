@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
+    <link rel="icon" type="image/png" href="leo.png">
     <title>SIMON</title>
 </head>
 <body>
@@ -23,31 +24,36 @@
         <div id="status">Press Start to Play!</div>
     </section>
 
-    <div class="game-container">
-        <section class="level-display">
-            <p>Level: <span id="level-counter">0</span></p>
-         </section>
-        </div>
-    
-    <div class="game-board">
-        <div class="row">
-            <div class="box" id="red"></div>
-            <div class="box" id="blue"></div>
+    <main>
+        <div class="game-container">
+            <section class="level-display">
+                <p>Level: <span id="level-counter">0</span></p>
+             </section>
+            </div>
+        
+        <div class="game-board">
+            <div class="row">
+                <div class="box" id="red"></div>
+                <div class="box" id="blue"></div>
+            </div>
+            
+            <div class="row">
+                <div class="box" id="green"></div>
+                <div class="box" id="yellow"></div>
+            </div>
         </div>
         
-        <div class="row">
-            <div class="box" id="green"></div>
-            <div class="box" id="yellow"></div>
+        <div class="score-board">
+            <p>High Score: <span id="high-score">0</span></p>
         </div>
-    </div>
-    
+    </main>
 
     <div class="controls">
         <section class="buttons">
        
             <!-- <button id="reset">Reset</button> -->
-                <button id="sound-toggle">Toggle Sound</button>
                 <button id="begin">Start</button>
+                <button id="sound-toggle">Toggle Sound</button>
                 <button id="toggle-timer">Timer: ON</button>
     
             </section>
