@@ -10,6 +10,7 @@ let gameEnd = false;
 let soundOn = true;
 let timerOn = true;
 let clickTimer;
+let audioContext;
 
 // Cached elements
 const buttonColors = ["red", "blue", "green", "yellow"];
@@ -27,8 +28,15 @@ const soundFiles = {
   yellow: "./sounds/yellow.wav",
 };
 
-// const gameOverAudio = new Audio("sound/gameover.wav");
+
 const gameOverSound = new Audio("./sounds/gameover.wav");
+
+try {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  console.log("🔊 AudioContext initialized successfully.");
+} catch (error) {
+  console.error("❌ Error initializing AudioContext:", error);
+}
 
 // const buttonSound = new Audio("/simon-music.mp3");
 // Event listeners
@@ -51,10 +59,23 @@ document.getElementById("begin").addEventListener("click", playSound);
 document.addEventListener(
   "click",
   () => {
+    if (!gameEnd) return;
     gameOverSound.play();
   },
   { once: true }
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("✅ DOM fully loaded. Ensuring AudioContext is initialized.");
+  if (!audioContext) {
+      try {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          console.log("🔊 AudioContext successfully initialized.");
+      } catch (error) {
+          console.error("❌ Error initializing AudioContext after DOM load:", error);
+      }
+  }
+});
 
 //Functions
 function startGame() {
@@ -142,7 +163,7 @@ function toggleTimer(timeLimit) {
 // TODO: Comment it out yourself by studying it
 function playSound(color) {
   if (!soundOn) return;
-    
+
   let soundPath = `./sounds/${color}.wav`; // Ensure correct file path
   console.log("Loading sound from:", soundPath); // Debugging
 
@@ -253,19 +274,44 @@ function gameOver() {
   statusDisplay.innerText = "Game Over! Click Start to Try Again.";
   resetButtonEl.style.display = "block";
   computerIsPlaying = true;
+  gameEnd = true;
 
   let finalScore = level; // Use current level as score
   console.log("🎮 Game Over! Final Score:", finalScore);
 
   endGame(finalScore); // Ensure score is saved
+  
+  if (!audioContext) {
+    console.error("❌ AudioContext is not initialized!");
+    return;
+}
 
   if (soundOn) {
-    console.log("Playing Game Over Sound..."); // Debugging
-    gameOverSound.currentTime = 0; // Restart from beginning
-    gameOverSound
-      .play()
-      .then(() => console.log("Game Over sound played successfully"))
-      .catch((error) => console.error("Audio playback error:", error));
+    console.log("🔊 Checking AudioContext state:", audioContext.state);
+
+        // If the browser has suspended the audio context, resume it
+        if (audioContext.state === "suspended") {
+            audioContext.resume().then(() => {
+                console.log("🔄 AudioContext resumed!");
+                playGameOverSound();
+            });
+        } else {
+            playGameOverSound();
+        }
+
+        function playGameOverSound() {
+          gameOverSound.pause(); // Stop any previous play
+          gameOverSound.currentTime = 0; // Reset position
+          gameOverSound.play()
+              .then(() => console.log("✅ Game Over sound played successfully"))
+              .catch(error => console.error("Audio playback error:", error));
+      }
+    // console.log("Playing Game Over Sound..."); 
+    // gameOverSound.pause();// Debugging
+    // gameOverSound.currentTime = 0; // Restart from beginning
+    // gameOverSound.play()
+    //   .then(() => console.log("Game Over sound played successfully"))
+    //   .catch((error) => console.error("Audio playback error:", error));
   }
 }
 //     statusDisplay.innerText = "Game Over! Click Start to Try Again.";
@@ -361,18 +407,33 @@ function fadeOut(randomColor) {
 // }
 
 function saveHighScore(score) {
-  let highScore = Number(localStorage.getItem("highScore")) || 0; // Ensure it's a number
-  console.log("Current stored high score:", highScore);
-  console.log("New score to check:", score);
 
-  if (score > highScore) {
-    // Only update if new score is higher
-    localStorage.setItem("highScore", score);
-    console.log("✅ New High Score Saved:", score);
-    // Do another getItem on the lcoalstorage and set it to the textContent of the high score eleement
-  } else {
-    console.log("❌ No new high score. Keeping previous score.");
+  let highScore = localStorage.getItem("highScore");
 
+  if (!highScore || score > highScore) {
+      localStorage.setItem("highScore", score);
+      document.getElementById("high-score").textContent = score; // ✅ Update UI immediately
+  }
+
+  // let highScore = Number(localStorage.getItem("highScore")) || 0; // Ensure it's a number
+  // console.log("Current stored high score:", highScore);
+  // console.log("New score to check:", score);
+
+  // if (score > highScore) {
+  //   // Only update if new score is higher
+  //   localStorage.setItem("highScore", score);
+  //   console.log("✅ New High Score Saved:", score);
+  //   let highScoreElement = document.getElementById("high-score");
+  //       if (highScoreElement) {
+  //           highScoreElement.textContent = localStorage.getItem("highScore"); // Force UI update
+  //           console.log("✅ UI Updated with New High Score:", highScoreElement.textContent);
+  //       } else {
+  //           console.error("❌ Cannot update UI: #high-score element not found!");
+  //       }
+  //   // Do another getItem on the lcoalstorage and set it to the textContent of the high score eleement
+  // } else {
+  //   console.log("❌ No new high score. Keeping previous score.");
+// ------
     // let highScore = Number(localStorage.getItem("highScore")) || 0; // Ensure it's a number
 
     // if (score > highScore) { // Only update if new score is higher
@@ -380,7 +441,7 @@ function saveHighScore(score) {
     //     console.log("New High Score:", score);
     //     document.getElementById("high-score").textContent = score; // Update UI immediately
   }
-}
+// }
 //     let highScore = localStorage.getItem("highScore"); // Get stored high score
 
 //     if (!highScore || score > highScore) { // If no high score exists OR new score is higher
@@ -392,14 +453,18 @@ function saveHighScore(score) {
 function loadHighScore() {
   let highScore = localStorage.getItem("highScore") || 0; // Get stored high score or default to 0
   // console.log("🟢 Loading High Score:", highScore);
+  document.getElementById("high-score").textContent = highScore;
 
-  let highScoreElement = document.getElementById("high-score");
-  if (highScoreElement) {
-    highScoreElement.textContent = highScore;
-    console.log("🏆 High Score Updated in UI:", highScore);
-  } else {
-    console.error("❌ Element with ID 'high-score' not found!");
-  }
+  // let highScoreElement = document.getElementById("high-score");
+  // if (highScoreElement) {
+  //   highScoreElement.textContent = localStorage.getItem("high-score") || 0;
+  //   console.log("🏆 High Score Updated in UI:", highScoreElement.textContent);
+  // } else {
+  //   console.error("❌ Element with ID 'high-score' not found!");
+  // }
+
+
+
 }
 //     let highScore = localStorage.getItem("highScore") || 0; // Default to 0 if no score
 //     document.getElementById("high-score").textContent = highScore;

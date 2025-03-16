@@ -14,6 +14,17 @@
     /* https://fontstruct.com/fontstructions/download/1595139 this is the citation for the font */ 
 }
 
+.title {
+  font-size: 18em;              /* Adjust size here */
+}
+
+h1 {
+  font-size: 5em;              /* Adjust this value to make the title bigger */
+  color: #000;                 /* Optional: change text color */
+  margin: 20px 0;             /* Optional: add margin for spacing */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional: add shadow effect */
+}
+
 body {
     text-align: center;
     background-color: lemonchiffon;
@@ -105,6 +116,10 @@ body {
     display: none;
   }
 
+  .instructions {
+    font-size: 24px; /* Adjust size as needed */
+    font-weight: bold;
+  }
   /* .color-button.active {
     transform: scale(1.1);
     opacity: 0.5;
@@ -217,6 +232,18 @@ button.active {
   background: black; 
   padding: 10px 15px;
   border-radius: 8px; */
+}
+
+.score-board {
+  font-size: 26px;
+  /* font-weight: bold;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  background-color: black;
+  border-radius: 8px;
+  width: fit-content;
+  margin: 10px auto; */
 }
 
 #toggle-timer {
