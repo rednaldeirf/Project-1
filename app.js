@@ -1,11 +1,9 @@
 // Variables
 window.addEventListener("DOMContentLoaded", loadHighScore);
-// window.onload = loadHighScore;
 
 let gamePattern = [];
 let userPattern = [];
 let level = 0;
-// let gameStart = false;
 let gameEnd = false;
 let soundOn = true;
 let timerOn = true;
@@ -38,7 +36,9 @@ try {
   console.error("❌ Error initializing AudioContext:", error);
 }
 
-// const buttonSound = new Audio("/simon-music.mp3");
+
+
+// ******************************
 // Event listeners
 startButton.addEventListener("click", startGame);
 soundToggleButton.addEventListener("click", toggleSound);
@@ -82,15 +82,11 @@ function startGame() {
   resetGame();
   level = 1;
   updateLevelDisplay();
-
   computerIsPlaying = true;
   statusDisplay.innerText = "watch the sequence!";
-  //after chercking both patterns and if correct score incrise
-  // startButton.style.position = "fixed";
-  // startButton.style.zIndex = "1000";
-  // score++;
+  
 
-  const randomColor = getRandomColor();
+const randomColor = getRandomColor();
   gamePattern.push(randomColor);
   playSequence();
 }
@@ -100,8 +96,7 @@ function resetGame() {
   userPattern = [];
   score = 0;
   statusDisplay.innerText = "press start to play";
-  // resetButtonEl.style.display = "none";
-  // statusDisplay.classList.remove("bouncing");
+  
 }
 
 function getRandomColor() {
@@ -118,11 +113,13 @@ function playSequence() {
       document.querySelectorAll(".color-button").forEach((btn) => {
         btn.style.opacity = "0.5";
       });
-      highlightButton(color);
-      playSound(color);
+     
     }, delay);
     delay += stepDelay;
   }
+  computerIsPlaying = true;
+    statusDisplay.innerText = "watch the sequence";
+
   setTimeout(() => {
     computerIsPlaying = false;
     statusDisplay.innerText = "your turn";
@@ -160,7 +157,6 @@ function toggleTimer(timeLimit) {
     : "Timer: OFF";
 }
 
-// TODO: Comment it out yourself by studying it
 function playSound(color) {
   if (!soundOn) return;
 
@@ -212,8 +208,7 @@ function handleUserClick(color) {
     setTimeout(nextRound, stepDelay); //do i have to change it to 1000?
   }
 }
-//  checkUserSequence(); // Check if the sequence is correct
-// }
+
 
 function handleUserClick(color) {
   if (computerIsPlaying) return;
@@ -246,21 +241,13 @@ function nextRound() {
   computerIsPlaying = true;
   setTimeout(playSequence, 1000);
 
-  // let currentLevel = gamePattern.length;
-  // statusDisplay.innerText = `Level ${currentLevel}`;
-  // levelDisplay.innerText = `Level ${currentLevel}`;
-
-  // computerIsPlaying = true;
-  // setTimeout(playSequence, 1000);
 }
 
 function updateLevelDisplay() {
   document.getElementById("level-counter").innerText = level;
 }
 
-// function playSound(color) {
-//     console.log(`Playing sound for ${color}`);
-// }
+
 
 function highlightButton(color) {
   const button = document.getElementById(color);
@@ -279,11 +266,19 @@ function gameOver() {
   let finalScore = level; // Use current level as score
   console.log("🎮 Game Over! Final Score:", finalScore);
 
+  if (soundOn) { // ✅ Only play gameOverSound if sound is ON
+    playGameOverSound();
+} else {
+    console.log("🔇 Sound is OFF, not playing gameOver sound.");
+}
+
   endGame(finalScore); // Ensure score is saved
+  // playGameOverSound();
   
   if (!audioContext) {
     console.error("❌ AudioContext is not initialized!");
     return;
+}
 }
 
   if (soundOn) {
@@ -297,8 +292,9 @@ function gameOver() {
             });
         } else {
             playGameOverSound();
+    
         }
-
+      }
         function playGameOverSound() {
           gameOverSound.pause(); // Stop any previous play
           gameOverSound.currentTime = 0; // Reset position
@@ -306,26 +302,7 @@ function gameOver() {
               .then(() => console.log("✅ Game Over sound played successfully"))
               .catch(error => console.error("Audio playback error:", error));
       }
-    // console.log("Playing Game Over Sound..."); 
-    // gameOverSound.pause();// Debugging
-    // gameOverSound.currentTime = 0; // Restart from beginning
-    // gameOverSound.play()
-    //   .then(() => console.log("Game Over sound played successfully"))
-    //   .catch((error) => console.error("Audio playback error:", error));
-  }
-}
-//     statusDisplay.innerText = "Game Over! Click Start to Try Again.";
-//     resetButtonEl.style.display = "block";
-//     computerIsPlaying = true; // Prevent further clicks
-
-//     // statusDisplay.classList.add("bouncing");
-
-//     if (soundOn) {
-//         let gameOverSound = new Audio("sound/gameover.wav");
-//         gameOverSound.play()
-//             .catch(error => console.error("Audio playback error:", error));
-// }
-// }
+    
 
 function toggleSound() {
   soundOn = !soundOn;
@@ -336,75 +313,7 @@ function toggleSound() {
     console.log("sound is now:", soundOn);
   }
 }
-// function startGame() {
-//     if (!started) {
-//         level = 0;
-//         gamePattern = [];
-//         userPattern = [];
-//         started = true;
-//         document.getElementById('level-title').innerText = "Level " + level;
-//         nextSequence();
-//     }
-// }
 
-// function nextSequence() {
-//   let randomNum = Math.floor(Math.random() * 4);
-//   let randomColor = buttonColors[randomNum];
-
-//   gamePattern.push(randomColor);
-//   console.log("Game pattern:", gamePattern);
-// }
-
-// for (let i = 0; i <= 3; i++) {
-//   nextSequence();
-// }
-
-// function handleButtonClick(color) {
-//   userPattern.push(color);
-//   checkAnswer(userPattern.length - 1);
-// }
-
-function fadeOut(randomColor) {
-  let element = document.querySelector("#" + randomColor);
-  let opacity = 1;
-
-  function decreaseOpacity() {
-    if (opacity > 0) {
-      opacity -= 0.02;
-      element.style.opacity = opacity;
-      requestAnimationFrame(decreaseOpacity);
-    } else {
-      element.computedStyleMap.display = "none";
-    }
-  }
-  decreaseOpacity();
-}
-// fadeOut(randomColor);
-function fadeOut(randomColor) {
-  let element = document.querySelector("#" + randomColor);
-  element.classList.add("fade-out");
-}
-
-// function startGame() {
-//   for (let i = 0; i <= 3; i++) {
-//     nextSequence();
-//   }
-// Take the Game pattern, and figure out how to display it
-// gamePattern.forEach((color) => {
-//  do something here to incrementally apply css to buttons
-// })
-
-// Prompt the user to click the same sequence
-// Capture user clicks using event handlers
-
-// document.querySelectorAll('box').forEach((btn) => {
-//     btn.addEventListener('click', play);
-// })
-
-// Function to play the sound
-// function playSound() {
-//     buttonSound.play();
-// }
 
 function saveHighScore(score) {
 
@@ -414,61 +323,17 @@ function saveHighScore(score) {
       localStorage.setItem("highScore", score);
       document.getElementById("high-score").textContent = score; // ✅ Update UI immediately
   }
+}
 
-  // let highScore = Number(localStorage.getItem("highScore")) || 0; // Ensure it's a number
-  // console.log("Current stored high score:", highScore);
-  // console.log("New score to check:", score);
-
-  // if (score > highScore) {
-  //   // Only update if new score is higher
-  //   localStorage.setItem("highScore", score);
-  //   console.log("✅ New High Score Saved:", score);
-  //   let highScoreElement = document.getElementById("high-score");
-  //       if (highScoreElement) {
-  //           highScoreElement.textContent = localStorage.getItem("highScore"); // Force UI update
-  //           console.log("✅ UI Updated with New High Score:", highScoreElement.textContent);
-  //       } else {
-  //           console.error("❌ Cannot update UI: #high-score element not found!");
-  //       }
-  //   // Do another getItem on the lcoalstorage and set it to the textContent of the high score eleement
-  // } else {
-  //   console.log("❌ No new high score. Keeping previous score.");
-// ------
-    // let highScore = Number(localStorage.getItem("highScore")) || 0; // Ensure it's a number
-
-    // if (score > highScore) { // Only update if new score is higher
-    //     localStorage.setItem("highScore", score);
-    //     console.log("New High Score:", score);
-    //     document.getElementById("high-score").textContent = score; // Update UI immediately
-  }
-// }
-//     let highScore = localStorage.getItem("highScore"); // Get stored high score
-
-//     if (!highScore || score > highScore) { // If no high score exists OR new score is higher
-//         localStorage.setItem("highScore", score); // Save new high score
-//         console.log("New High Score:", score);
-//     }
-// }
 
 function loadHighScore() {
   let highScore = localStorage.getItem("highScore") || 0; // Get stored high score or default to 0
   // console.log("🟢 Loading High Score:", highScore);
   document.getElementById("high-score").textContent = highScore;
 
-  // let highScoreElement = document.getElementById("high-score");
-  // if (highScoreElement) {
-  //   highScoreElement.textContent = localStorage.getItem("high-score") || 0;
-  //   console.log("🏆 High Score Updated in UI:", highScoreElement.textContent);
-  // } else {
-  //   console.error("❌ Element with ID 'high-score' not found!");
-  // }
-
-
 
 }
-//     let highScore = localStorage.getItem("highScore") || 0; // Default to 0 if no score
-//     document.getElementById("high-score").textContent = highScore;
-// }
+
 
 function endGame(finalScore) {
   console.log("End Game triggered! Final Score:", finalScore);
